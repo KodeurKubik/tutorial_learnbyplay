@@ -47,10 +47,13 @@ def main(
     startingNeuralNetworkFilepath
 ):
     device = 'cpu'
-    if not useCpu and torch.cuda.is_available():
-        device = 'cuda'
+    if not useCpu:
+        if torch.cuda.is_available():
+            device = 'cuda'
+        elif torch.backends.mps.is_available():
+            device = 'mps'
 
-    logging.info(f"train_agent.main(); torch.cuda.is_available() = {torch.cuda.is_available()}; device = {device}; game = {game}; architecture = {architecture}")
+    logging.info(f"train_agent.main(); torch.cuda.is_available() = {torch.cuda.is_available()}; tirch.backends.mps.is_available() = {torch.backends.mps.is_available()}; device = {device}; game = {game}; architecture = {architecture}")
 
     random.seed(randomSeed)
     torch.manual_seed(randomSeed)
